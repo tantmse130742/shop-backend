@@ -1,5 +1,4 @@
 const Product = require("../models/productModel");
-
 exports.getAllProducts = async (req, res) => {
   try {
     const prodcuts = await Product.find();
@@ -41,14 +40,14 @@ exports.createProduct = async (req, res) => {
 };
 
 exports.updateProduct = async (req, res) => {
-  try {
-    const { name, price } = req.param.body;
-    const product = await Product.findByIdAndUpdate(req.param.id, {
-      name,
-      price,
+  try {    
+    const id = req.params.id;
+    const { name, category, price, ratings, supplierId, stock } = req.body;
+    await Product.findByIdAndUpdate(id, {
+      name, category, price, ratings, supplierId, stock
     });
-    res.status(201).json(product);
-  } catch (error) {
+    res.status(200).json({ message: "prodcut updated" });
+  } catch (error) {    
     res.status(400).json({ message: "error update product data from server" });
   }
 };
